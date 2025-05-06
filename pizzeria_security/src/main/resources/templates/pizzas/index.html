@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
     <div th:replace="~{fragments/style :: headTags}"></div>
@@ -33,9 +33,11 @@
 
                 <!-- bottone verso create -->
                 <div class="mb-3">
-                    <a th:href="@{/pizzas/create}" class="btn back-basil cheese">
+                    <a th:href="@{/pizzas/create}" sec:authorize="hasAuthority('ADMIN')" class="btn back-basil cheese">
                         Add a pizza
                     </a>
+                    <h3 th:text="'Hi ' + ${username}">
+                    </h3>
                 </div>
             </div>
             <div class="col-sm-12 col-md-4 m-2" th:each="pizza : ${pizzas}" th:object="${pizza}"
@@ -50,7 +52,7 @@
                     </p>
 
                     <!-- bottoni edit e delete -->
-                    <div class="d-flex pb-3 w-100 justify-content-evenly">
+                    <div sec:authorize="hasAuthority('ADMIN')" class="d-flex pb-3 w-100 justify-content-evenly">
                         <a th:href="@{/pizzas/edit/{id}(id=${pizza.id})}" class="btn btn-light">
                             Edit
                         </a>
@@ -60,7 +62,7 @@
                         </a>
 
                         <!-- bottone con modale -->
-                        <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                        <button sec:authorize="hasAuthority('ADMIN')" type="button" class="btn btn-danger" data-bs-toggle="modal"
                             th:data-bs-target="'#delete-modal-' + ${pizza.id}">
                             Delete
                         </button>

@@ -21,11 +21,13 @@ public class SecurityConfig {
         http.authorizeHttpRequests()
                 .requestMatchers("/pizzas/create", "/pizzas/edit/**").hasAuthority("ADMIN")
                 .requestMatchers(HttpMethod.POST, "/pizzas/**").hasAuthority("ADMIN")
-                .requestMatchers("/ingredients", "/ingredients/**").hasAnyAuthority("USER", "ADMIN")
+                .requestMatchers("/ingredients", "/ingredients/**").hasAuthority("ADMIN")
+                .requestMatchers("/pizzas", "/pizzas/**").hasAnyAuthority("USER", "ADMIN")
                 .requestMatchers("/**").permitAll()
                 .and().formLogin()
                 .and().logout()
-                .and().exceptionHandling();
+                .and().exceptionHandling()
+                .and().csrf().disable();
 
         return http.build();
     }
@@ -37,12 +39,17 @@ public class SecurityConfig {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
         
         // gestione servizio recupero utenti via username
-        authProvider.setUserDetailsService(null);
+        authProvider.setUserDetailsService(userDetailService());
 
         // gestion password encoder
         authProvider.setPasswordEncoder(passwordEncoder());
         
         return authProvider;
+    }
+
+    @Bean
+    DatabaseUserDetailService userDetailService() {
+        return new DatabaseUserDetailService();
     }
 
     // gestione password encoder

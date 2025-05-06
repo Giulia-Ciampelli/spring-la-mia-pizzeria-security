@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
     <meta charset="UTF-8">
@@ -23,6 +23,15 @@
                     <div class="navbar-nav">
                         <a class="nav-link active" aria-current="page" th:href="@{/ingredients}">Your ingredients</a>
                     </div>
+                </div>
+                <div class="user-info">
+                    Logged user: <span sec:authentication="name" class="fw-bold me-2">
+                    </span>
+                    <!-- Role: <span sec:authentication="principal.authorities" class="fst-italic me-2"> -->
+                    </span>
+                    <a class="btn back-charcoal cheese" href="/logout">
+                        Sign out
+                    </a>
                 </div>
             </div>
         </nav>
