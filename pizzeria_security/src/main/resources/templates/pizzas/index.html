@@ -36,8 +36,6 @@
                     <a th:href="@{/pizzas/create}" sec:authorize="hasAuthority('ADMIN')" class="btn back-basil cheese">
                         Add a pizza
                     </a>
-                    <h3 th:text="'Hi ' + ${username}">
-                    </h3>
                 </div>
             </div>
             <div class="col-sm-12 col-md-4 m-2" th:each="pizza : ${pizzas}" th:object="${pizza}"
